@@ -1,7 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:glass_kit/glass_kit.dart';
+
+import 'package:discord_logger/discord_logger.dart';
+import 'package:http/http.dart' as http;
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -12,7 +17,54 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   @override
+
+  bool isButtonEnabled = false;
+  List<bool> _checkedStates = [];
+  void updateButtonState() {
+    setState(() {
+      isButtonEnabled = _checkedStates.any((state) => state);
+    });
+  }
+
+   bool _isPressed = false;
+
+  void _toggleColor() {
+    setState(() {
+      _isPressed = !_isPressed;
+    });
+  }
+
+  
+Future<void> logToDiscord(String message) async {
+  final webhookUrl = 'https://discord.com/api/webhooks/1159432304586936400/Ikirf2WorlQ5XELm33GDU2hNjZziKjuTw2SJePJbYbaBzOr9W5n2GHB_pQR_n-605UEL';
+  //https://discord.com/api/webhooks/1159432304586936400/Ikirf2WorlQ5XELm33GDU2hNjZziKjuTw2SJePJbYbaBzOr9W5n2GHB_pQR_n-605UEL
+
+  final response = await http.post(
+    Uri.parse(webhookUrl),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: jsonEncode({
+      'content': message,
+    }),
+  );
+
+  if (response.statusCode == 204) {
+    print('Message sent to Discord successfully');
+  } else {
+    print('Failed to send message to Discord. Status code: ${response.statusCode}');
+  }
+}
+
+  TextEditingController dcIDController = TextEditingController();
+   TextEditingController steamIDController = TextEditingController();
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+  @override
   Widget build(BuildContext context) {
+    
     return Scaffold(
       body: Container(
         // height: 10.h,
@@ -128,7 +180,7 @@ class _HomePageState extends State<HomePage> {
                               color: const Color(0xffF9F9F9).withOpacity(0.2),
                               borderRadius: BorderRadius.circular(14)),
                           child: TextFormField(
-                            // controller: emailController,
+                             controller: dcIDController,
                             decoration: InputDecoration(
                               border: InputBorder.none,
                               label: Text(
@@ -174,7 +226,7 @@ class _HomePageState extends State<HomePage> {
                               color: const Color(0xffF9F9F9).withOpacity(0.2),
                               borderRadius: BorderRadius.circular(14)),
                           child: TextFormField(
-                            // controller: emailController,
+                             controller: steamIDController,
                             decoration: InputDecoration(
                               border: InputBorder.none,
                               label: Text(
@@ -206,12 +258,17 @@ class _HomePageState extends State<HomePage> {
                                 SizedBox(
                                   width: 0.5.w,
                                 ),
-                                Container(
-                                  height: 12,
-                                  width: 12,
-                                  decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(100)),
+                                GestureDetector(
+                                  onTap: () {
+                                    _toggleColor();
+                                  },
+                                  child: Container(
+                                    height: 12,
+                                    width: 12,
+                                    decoration: BoxDecoration(
+                                        color:  _isPressed ? Color(0xffBDE038) : Colors.white,
+                                        borderRadius: BorderRadius.circular(100)),
+                                  ),
                                 ),
                                 Text(
                                   " I Accept the Rules & Regulation of Server",
@@ -226,22 +283,30 @@ class _HomePageState extends State<HomePage> {
                                 )
                               ],
                             ),
-                            Container(
-                              height: 5.h,
-                              width: 7.w,
-                              decoration: BoxDecoration(
-                                color: Color.fromARGB(255, 214, 39, 39),
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              alignment: Alignment.center,
-                              child: Text(
-                                "Submit",
-                                style: GoogleFonts.inder(
-                                  textStyle: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 3.sp,
-                                    // fontWeight: FontWeight.bold,
-                                    letterSpacing: .8,
+                            GestureDetector(
+                              onTap: () {
+                                logToDiscord('!getwl <@${dcIDController.text.toString()}> ${steamIDController.text.toString()}');
+                                // _discord.sendMessage(
+                                //   "message",
+                                // );
+                              },
+                              child: Container(
+                                height: 5.h,
+                                width: 7.w,
+                                decoration: BoxDecoration(
+                                  color:  _isPressed ? Color.fromARGB(255, 214, 39, 39) : Colors.white ,
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                alignment: Alignment.center,
+                                child: Text(
+                                  "Submit",
+                                  style: GoogleFonts.inder(
+                                    textStyle: TextStyle(
+                                      color:  _isPressed ? Colors.white : Colors.black,
+                                      fontSize: 3.sp,
+                                      // fontWeight: FontWeight.bold,
+                                      letterSpacing: .8,
+                                    ),
                                   ),
                                 ),
                               ),
