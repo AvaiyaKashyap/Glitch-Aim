@@ -285,10 +285,12 @@ Future<void> logToDiscord(String message) async {
                             ),
                             GestureDetector(
                               onTap: () {
-                                logToDiscord('!getwl <@${dcIDController.text.toString()}> ${steamIDController.text.toString()}');
-                                // _discord.sendMessage(
-                                //   "message",
-                                // );
+                                if(_isPressed == true) 
+                                {
+                                  print("true");
+                                 logToDiscord('!getwl <@${dcIDController.text.toString()}> ${steamIDController.text.toString()}');
+
+                                }
                               },
                               child: Container(
                                 height: 5.h,
