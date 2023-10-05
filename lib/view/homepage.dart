@@ -36,7 +36,7 @@ class _HomePageState extends State<HomePage> {
 
   
 Future<void> logToDiscord(String message) async {
-  final webhookUrl = 'https://discord.com/api/webhooks/1159432304586936400/Ikirf2WorlQ5XELm33GDU2hNjZziKjuTw2SJePJbYbaBzOr9W5n2GHB_pQR_n-605UEL';
+  final webhookUrl = 'https://discord.com/api/webhooks/1159459976067166208/fy2bu2VdTn5na66lALUT1dbD6__4E0vUFjm0flGkiwxahGFY8hfPS1eYZYOhREW81ZwC';
   //https://discord.com/api/webhooks/1159432304586936400/Ikirf2WorlQ5XELm33GDU2hNjZziKjuTw2SJePJbYbaBzOr9W5n2GHB_pQR_n-605UEL
 
   final response = await http.post(
