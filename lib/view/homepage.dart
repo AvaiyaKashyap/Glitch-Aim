@@ -36,7 +36,8 @@ class _HomePageState extends State<HomePage> {
 
   
 Future<void> logToDiscord(String message) async {
-  final webhookUrl = 'https://discord.com/api/webhooks/1159459976067166208/fy2bu2VdTn5na66lALUT1dbD6__4E0vUFjm0flGkiwxahGFY8hfPS1eYZYOhREW81ZwC';
+  final webhookUrl = 'https://discord.com/api/webhooks/1030816583439888414/2RhDsj71u_oVihDVPb8IWlmkF6WgDxSfvTPKCBrV1ajCvV0AagPIP87aDNyv6ADH8rWe';
+  //https://discord.com/api/webhooks/1159459976067166208/fy2bu2VdTn5na66lALUT1dbD6__4E0vUFjm0flGkiwxahGFY8hfPS1eYZYOhREW81ZwC
   //https://discord.com/api/webhooks/1159432304586936400/Ikirf2WorlQ5XELm33GDU2hNjZziKjuTw2SJePJbYbaBzOr9W5n2GHB_pQR_n-605UEL
 
   final response = await http.post(
@@ -71,7 +72,8 @@ Future<void> logToDiscord(String message) async {
         decoration: const BoxDecoration(
           // color: Colors.black,
           image: DecorationImage(
-            image: AssetImage("assets/glitchaim_back.jpg"),
+            //image: AssetImage("assets/glitchaim_back.jpg"),
+            image: NetworkImage("https://media.tenor.com/RUzFLGMuFt0AAAAd/monkey-driving-in-los-santos-los-santos.gif"),
             fit: BoxFit.cover,
             filterQuality: FilterQuality.high,
           ),
@@ -288,7 +290,7 @@ Future<void> logToDiscord(String message) async {
                                 if(_isPressed == true) 
                                 {
                                   print("true");
-                                 logToDiscord('!getwl <@${dcIDController.text.toString()}> ${steamIDController.text.toString()}');
+                                 logToDiscord('<@${dcIDController.text.toString()}> ${steamIDController.text.toString()}');
 
                                 }
                               },
